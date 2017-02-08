@@ -17,13 +17,16 @@ class RandomizedListTest {
 	private class DirectRandomizer implements Randomizer {
 		private int size;
 		private int index = 0;
+
 		DirectRandomizer(int size) {
 			this.size = size;
 		}
+
 		@Override
 		public boolean hasNext() {
 			return index < size;
 		}
+
 		@Override
 		public int nextIndex() {
 			return index++;
@@ -42,8 +45,8 @@ class RandomizedListTest {
 		int expectedSize = 5;
 		@SuppressWarnings("unchecked")
 		List<Object> backingList = mock(List.class);
-		stub(backingList.size()).toReturn(expectedSize);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.size()).thenReturn(expectedSize);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		int actualSize = list.size();
 
@@ -55,8 +58,8 @@ class RandomizedListTest {
 	void testIsEmpty_DelegatesToBackingList() {
 		boolean expectedEmptiness = true;
 		List<Object> backingList = mock(List.class);
-		stub(backingList.isEmpty()).toReturn(expectedEmptiness);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.isEmpty()).thenReturn(expectedEmptiness);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		boolean actualEmptiness = list.isEmpty();
 
@@ -69,8 +72,8 @@ class RandomizedListTest {
 		boolean expectedContainess = true;
 		Object searchObject = new Object();
 		List<Object> backingList = mock(List.class);
-		stub(backingList.contains(searchObject)).toReturn(expectedContainess);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.contains(searchObject)).thenReturn(expectedContainess);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		boolean actualContainess = list.contains(searchObject);
 
@@ -81,7 +84,7 @@ class RandomizedListTest {
 	@Test
 	public void testIterator_ReturnsRandomizedIterator() {
 		List<Object> dummyList = new ArrayList<>();
-		List<Object> list = new RandomizedList<>(dummyList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(dummyList, dummyType);
 		Iterator<Object> iterator = list.iterator();
 		assertTrue(iterator instanceof RandomizedIterator);
 	}
@@ -90,7 +93,7 @@ class RandomizedListTest {
 	public void testIterator_CreatesNewRandomizerViaRandomizeType() {
 		RandomizeType randomizeType = mock(RandomizeType.class);
 		List<Object> dummyList = new ArrayList<>();
-		List<Object> list = new RandomizedList<>(dummyList, randomizeType);
+		List<Object> list = new DeprecatedRandomizedList<>(dummyList, randomizeType);
 		list.iterator();
 		verify(randomizeType).createRandomizer(dummyList);
 	}
@@ -98,7 +101,7 @@ class RandomizedListTest {
 	@Test
 	public void testIterator_InjectsBackingListIntoRandomizedIterator() {
 		List<Object> backingList = IntStream.range(0, 3).mapToObj(Integer::valueOf).collect(Collectors.toList());
-		RandomizedList<Object> list = new RandomizedList<>(backingList, source -> new DirectRandomizer(source.size()));
+		DeprecatedRandomizedList<Object> list = new DeprecatedRandomizedList<>(backingList, source -> new DirectRandomizer(source.size()));
 		Iterator<Object> iterator = list.iterator();
 		List<Object> actualList = new ArrayList<>();
 		while (iterator.hasNext()) {
@@ -111,8 +114,8 @@ class RandomizedListTest {
 	void testToArray_DelegatesToBackingList() {
 		Object[] expectedArray = {};
 		List<Object> backingList = mock(List.class);
-		stub(backingList.toArray()).toReturn(expectedArray);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.toArray()).thenReturn(expectedArray);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		Object[] actualArray = list.toArray();
 
@@ -125,8 +128,8 @@ class RandomizedListTest {
 		Object[] expectedArray = {};
 		Object[] initialArray = {};
 		List<Object> backingList = mock(List.class);
-		stub(backingList.toArray(initialArray)).toReturn(expectedArray);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.toArray(initialArray)).thenReturn(expectedArray);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		Object[] actualArray = list.toArray(initialArray);
 
@@ -138,7 +141,7 @@ class RandomizedListTest {
 	void testAddObject_ThrowsUnsupportedOperationException() {
 		Object dummyObject = new Object();
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.add(dummyObject));
 		verifyZeroInteractions(backingList);
@@ -148,7 +151,7 @@ class RandomizedListTest {
 	void testRemoveObject_ThrowsUnsupportedOperationException() {
 		Object dummyObject = new Object();
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.remove(dummyObject));
 		verifyZeroInteractions(backingList);
@@ -159,8 +162,8 @@ class RandomizedListTest {
 		boolean expectedContainess = true;
 		Collection<Object> searchCollection = new ArrayList<>();
 		List<Object> backingList = mock(List.class);
-		stub(backingList.containsAll(searchCollection)).toReturn(expectedContainess);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.containsAll(searchCollection)).thenReturn(expectedContainess);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		boolean actualContainess = list.containsAll(searchCollection);
 
@@ -172,7 +175,7 @@ class RandomizedListTest {
 	void testAddAllCollection_ThrowsUnsupportedOperationException() {
 		Collection<Object> dummyCollection = new ArrayList<>();
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.addAll(dummyCollection));
 		verifyZeroInteractions(backingList);
@@ -183,7 +186,7 @@ class RandomizedListTest {
 		Collection<Object> dummyCollection = new ArrayList<>();
 		int dummyIndex = 3;
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.addAll(dummyIndex, dummyCollection));
 		verifyZeroInteractions(backingList);
@@ -193,7 +196,7 @@ class RandomizedListTest {
 	void testRemoveAll_ThrowsUnsupportedOperationException() {
 		Collection<Object> dummyCollection = new ArrayList<>();
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.removeAll(dummyCollection));
 		verifyZeroInteractions(backingList);
@@ -203,7 +206,7 @@ class RandomizedListTest {
 	void testRetainAll_ThrowsUnsupportedOperationException() {
 		Collection<Object> dummyCollection = new ArrayList<>();
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.retainAll(dummyCollection));
 		verifyZeroInteractions(backingList);
@@ -212,7 +215,7 @@ class RandomizedListTest {
 	@Test
 	void testClear_ThrowsUnsupportedOperationException() {
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.clear());
 		verifyZeroInteractions(backingList);
@@ -223,8 +226,8 @@ class RandomizedListTest {
 		int expectedIndex = 5;
 		Object expectedReturnValue = new Object();
 		List<Object> backingList = mock(List.class);
-		stub(backingList.get(expectedIndex)).toReturn(expectedReturnValue);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.get(expectedIndex)).thenReturn(expectedReturnValue);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		Object actualReturnValue = list.get(expectedIndex);
 
@@ -237,7 +240,7 @@ class RandomizedListTest {
 		Object dummyElement = new Object();
 		int dummyIndex = 3;
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.set(dummyIndex, dummyElement));
 		verifyZeroInteractions(backingList);
@@ -248,7 +251,7 @@ class RandomizedListTest {
 		Object dummyElement = new Object();
 		int dummyIndex = 3;
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.add(dummyIndex, dummyElement));
 		verifyZeroInteractions(backingList);
@@ -258,7 +261,7 @@ class RandomizedListTest {
 	void testRemoveIndexedElement_ThrowsUnsupportedOperationException() {
 		int dummyIndex = 3;
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.remove(dummyIndex));
 		verifyZeroInteractions(backingList);
@@ -269,8 +272,8 @@ class RandomizedListTest {
 		Object searchObject = new Object();
 		int expectedIndex = 5;
 		List<Object> backingList = mock(List.class);
-		stub(backingList.indexOf(searchObject)).toReturn(expectedIndex);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.indexOf(searchObject)).thenReturn(expectedIndex);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		int actualIndex = list.indexOf(searchObject);
 
@@ -283,8 +286,8 @@ class RandomizedListTest {
 		Object searchObject = new Object();
 		int expectedIndex = 5;
 		List<Object> backingList = mock(List.class);
-		stub(backingList.lastIndexOf(searchObject)).toReturn(expectedIndex);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.lastIndexOf(searchObject)).thenReturn(expectedIndex);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		int actualIndex = list.lastIndexOf(searchObject);
 
@@ -295,7 +298,7 @@ class RandomizedListTest {
 	@Test
 	void testListIterator_ThrowsUnsupportedOperationException() {
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.listIterator());
 		verifyZeroInteractions(backingList);
@@ -305,7 +308,7 @@ class RandomizedListTest {
 	void testListIteratorIndexed_ThrowsUnsupportedOperationException() {
 		int dummyIndex = 3;
 		List<Object> backingList = mock(List.class);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		assertThrows(UnsupportedOperationException.class, () -> list.listIterator(dummyIndex));
 		verifyZeroInteractions(backingList);
@@ -317,8 +320,8 @@ class RandomizedListTest {
 		int toIndex = 2;
 		List<Object> dummyList = new ArrayList<>();
 		List<Object> backingList = mock(List.class);
-		stub(backingList.subList(fromIndex, toIndex)).toReturn(dummyList);
-		List<Object> list = new RandomizedList<>(backingList, dummyType);
+		when(backingList.subList(fromIndex, toIndex)).thenReturn(dummyList);
+		List<Object> list = new DeprecatedRandomizedList<>(backingList, dummyType);
 
 		list.subList(fromIndex, toIndex);
 

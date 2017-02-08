@@ -1,9 +1,8 @@
 package net.sepp_tember.lib.randomizer;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ class RandomizedIteratorTest {
 		boolean expected = true;
 		List<Object> dummyList = new ArrayList<>();
 		Randomizer randomizer = mock(Randomizer.class);
-		stub(randomizer.hasNext()).toReturn(expected);
+		when(randomizer.hasNext()).thenReturn(expected);
 		RandomizedIterator<Object> iterator = new RandomizedIterator<>(dummyList, randomizer);
 		boolean actual = iterator.hasNext();
 		assertEquals(expected, actual);
@@ -32,7 +31,7 @@ class RandomizedIteratorTest {
 		List<Object> elements = IntStream.range(0, 5).mapToObj(Integer::valueOf).collect(Collectors.toList());
 		Object expectedElement = elements.get(index);
 		Randomizer randomizer = mock(Randomizer.class);
-		stub(randomizer.nextIndex()).toReturn(index);
+		when(randomizer.nextIndex()).thenReturn(index);
 		RandomizedIterator<Object> iterator = new RandomizedIterator<>(elements, randomizer);
 		Object actualElement = iterator.next();
 		assertEquals(expectedElement, actualElement);
@@ -45,5 +44,4 @@ class RandomizedIteratorTest {
 		RandomizedIterator<Object> iterator = new RandomizedIterator<>(dummyList, dummyRandomizer);
 		assertThrows(UnsupportedOperationException.class, iterator::remove);
 	}
-
 }

@@ -1,7 +1,11 @@
 package net.sepp_tember.lib.randomizer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
+@Deprecated
 class RandomizedIterator<T> implements Iterator<T> {
 
 	private Randomizer randomizer;
