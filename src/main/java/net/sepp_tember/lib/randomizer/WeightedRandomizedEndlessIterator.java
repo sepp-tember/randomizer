@@ -6,19 +6,19 @@ import java.util.Random;
 
 import net.sepp_tember.lib.randomizer.WeightedRandomizedList.WeightedElement;
 
-public class WeightedRandomizedUnlimitedIterator<T> implements Iterator<WeightedElement<T>> {
+public class WeightedRandomizedEndlessIterator<T> implements Iterator<WeightedElement<T>> {
 
 	private List<WeightedElement<T>> list;
 	private Random rng = new Random();
 	private double totalWeights;
 	private int lastIndex = -1;
 
-	public WeightedRandomizedUnlimitedIterator(List<WeightedElement<T>> list) {
+	public WeightedRandomizedEndlessIterator(List<WeightedElement<T>> list) {
 		this.list = list;
 		totalWeights = list.stream().reduce(0.0, (sum, element) -> sum + element.getWeight(), (sum1, sum2) -> sum1 + sum2);
 	}
 
-	WeightedRandomizedUnlimitedIterator(List<WeightedElement<T>> list, Random rng) {
+	WeightedRandomizedEndlessIterator(List<WeightedElement<T>> list, Random rng) {
 		this(list);
 		this.rng = rng;
 	}

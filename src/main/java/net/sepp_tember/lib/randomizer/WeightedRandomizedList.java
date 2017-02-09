@@ -198,6 +198,6 @@ public class WeightedRandomizedList<T> implements RandomizedList<WeightedElement
 
 	@Override
 	public Iterator<WeightedElement<T>> randomizedIterator() {
-		return new WeightedRandomizedUnlimitedIterator<T>(backingList);
+		return new WeightedRandomizedEndlessIterator<T>(backingList);
 	}
 }

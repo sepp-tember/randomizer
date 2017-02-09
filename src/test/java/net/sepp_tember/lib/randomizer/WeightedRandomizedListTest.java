@@ -59,9 +59,9 @@ public class WeightedRandomizedListTest {
 	}
 
 	@Test
-	public void testRandomizedIteratorReturnsWeightedRandomizedUnlimitedIterator() {
+	public void testRandomizedIteratorReturnsWeightedRandomizedEndlessIterator() {
 		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
-		assertEquals(WeightedRandomizedUnlimitedIterator.class, list.randomizedIterator().getClass());
+		assertEquals(WeightedRandomizedEndlessIterator.class, list.randomizedIterator().getClass());
 	}
 
 	@Test

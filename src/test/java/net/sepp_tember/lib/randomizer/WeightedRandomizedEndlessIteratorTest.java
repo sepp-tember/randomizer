@@ -9,7 +9,7 @@ import net.sepp_tember.lib.randomizer.WeightedRandomizedList.WeightedElement;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
-public class WeightedRandomizedUnlimitedIteratorTest {
+public class WeightedRandomizedEndlessIteratorTest {
 
 	@Test
 	public void testNextReturnsElementOfSubsequentIndexWhenRngReturnsSumOfNormalizedWeightsOfSuccessiveElements() {
@@ -21,7 +21,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 				new WeightedElement<>(2, "second"),
 				expected
 		);
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(list, random);
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(list, random);
 
 		WeightedElement<String> next = iterator.next();
 
@@ -38,7 +38,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 				expected,
 				new WeightedElement<>(3, "third")
 		);
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(list, random);
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(list, random);
 
 		WeightedElement<String> next = iterator.next();
 
@@ -55,7 +55,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 				new WeightedElement<>(2, "second"),
 				expected
 		);
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(list, random);
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(list, random);
 
 		WeightedElement<String> next = iterator.next();
 
@@ -71,7 +71,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 		list.add(expected);
 		list.add(new WeightedElement<>(2, "second"));
 		list.add(new WeightedElement<>(3, "third"));
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(list, random);
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(list, random);
 		iterator.next();
 		iterator.remove();
 
@@ -82,7 +82,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 
 	@Test
 	public void testHasNextReturnsAlwaysTrueIfListHasElements() {
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(
 				Collections.singletonList(new WeightedElement<>(1, "dummy")));
 
 		assertTrue(iterator.hasNext());
@@ -90,7 +90,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 
 	@Test
 	public void testHasNextReturnsAlwaysFalseIfListIsEmpty() {
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(Collections.emptyList());
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(Collections.emptyList());
 
 		assertFalse(iterator.hasNext());
 	}
@@ -101,7 +101,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 		list.add(new WeightedElement<>(1, "first"));
 		list.add(new WeightedElement<>(2, "second"));
 		list.add(new WeightedElement<>(3, "third"));
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(list);
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(list);
 		WeightedElement<String> elementToBeRemoved = iterator.next();
 		Assumptions.assumeTrue(list.contains(elementToBeRemoved));
 
@@ -112,7 +112,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 
 	@Test
 	public void testRemoveThrowsIllegalStateExceptionIfNextHasNotBeenCalled() {
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(
 				Collections.singletonList(new WeightedElement<>(1, "dummy")));
 
 		assertThrows(IllegalStateException.class, iterator::remove);
@@ -122,7 +122,7 @@ public class WeightedRandomizedUnlimitedIteratorTest {
 	public void testRemoveThrowsIllegalStateExceptionIfRemoveHasAlreadyBeenCalled() {
 		List<WeightedElement<String>> list = new ArrayList<>();
 		list.add(new WeightedElement<>(1, "dummy"));
-		WeightedRandomizedUnlimitedIterator<String> iterator = new WeightedRandomizedUnlimitedIterator<>(list);
+		WeightedRandomizedEndlessIterator<String> iterator = new WeightedRandomizedEndlessIterator<>(list);
 		iterator.next();
 		iterator.remove();
 

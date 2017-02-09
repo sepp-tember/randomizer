@@ -2,6 +2,7 @@ package net.sepp_tember.lib.randomizer;
 
 import java.util.Random;
 
+@Deprecated
 public class WeightedUnlimitedRandomizer implements Randomizer {
 
 	private Random rng = new Random();
