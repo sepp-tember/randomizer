@@ -2,6 +2,7 @@ package net.sepp_tember.lib.randomizer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import java.util.ArrayList;
@@ -120,6 +121,12 @@ public class WeightedRandomizedListTest {
 		List<Double> elements = new ArrayList<>();
 
 		assertThrows(NullPointerException.class, () -> new WeightedRandomizedList<>(null, elements));
+	}
+
+	@Test
+	public void testRandomizedReturnsIterableThatReturnsWeightedRandomizedEndlessIterator() {
+			WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+		assertEquals(WeightedRandomizedEndlessIterator.class, list.randomized().iterator().getClass());
 	}
 
 	@SuppressWarnings("unchecked")
