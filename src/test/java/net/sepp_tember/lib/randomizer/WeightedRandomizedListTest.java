@@ -1,14 +1,10 @@
 package net.sepp_tember.lib.randomizer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
+import static java.util.Collections.emptyList;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -60,8 +56,143 @@ public class WeightedRandomizedListTest {
 	}
 
 	@Test
+	public void testAddIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.add(-1, null));
+	}
+
+	@Test
+	public void testAddIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsGreaterThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.add(1, null));
+	}
+
+	@Test
+	public void testAddAllThrowsNullPointerExceptionIfGivenCollectionIsNull() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(NullPointerException.class, () -> list.addAll(null));
+	}
+
+	@Test
+	public void testAddAllIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.addAll(-1, emptyList()));
+	}
+
+	@Test
+	public void testAddAllIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsGreaterThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.addAll(1, emptyList()));
+	}
+
+	@Test
+	public void testAddAllIndexedThrowsNullPointerExceptionIfGivenCollectionIsNull() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(NullPointerException.class, () -> list.addAll(0, null));
+	}
+
+	@Test
+	public void testGetThrowsIndexOutOfBoundsExceptionIfGivenIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
+	}
+
+	@Test
+	public void testGetThrowsIndexOutOfBoundsExceptionIfGivenIndexIsGreaterOrEqualThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
+	}
+
+	@Test
+	public void testListIteratorIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.listIterator(-1));
+	}
+
+	@Test
+	public void testListIteratorIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsGreaterThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.listIterator(1));
+	}
+
+	@Test
+	public void testRemoveIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
+	}
+
+	@Test
+	public void testRemoveIndexedThrowsIndexOutOfBoundsExceptionIfGivenIndexIsGreaterThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.remove(1));
+	}
+
+	@Test
+	public void testSetThrowsIndexOutOfBoundsExceptionIfGivenIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.set(-1, null));
+	}
+
+	@Test
+	public void testSetThrowsIndexOutOfBoundsExceptionIfGivenIndexIsGreaterThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.set(1, null));
+	}
+
+	@Test
+	public void testSubListThrowsIndexOutOfBoundsExceptionIfFromIndexIsLowerThanZero() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.subList(-1, 0));
+	}
+
+	@Test
+	public void testSubListThrowsIndexOutOfBoundsExceptionIfToIndexIsGreaterThanSize() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.subList(0, 1));
+	}
+
+	@Test
+	public void testSubListThrowsIndexOutOfBoundsExceptionIfFromIndexIsGreaterThanToIndex() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(IndexOutOfBoundsException.class, () -> list.subList(0, 1));
+	}
+
+	@Test
+	public void testToArrayTypedThrowsArrayStoreExceptionIfGivenArrayTypeIsNotSuperTypeOfWeightedElement() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+		list.add(new WeightedElement<>(0.1, null));
+
+		assertThrows(ArrayStoreException.class, () -> list.toArray(new String[]{}));
+	}
+
+	@Test
+	public void testToArrayTypedThrowsNullPointerExceptionIfGivenArrayNull() {
+		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
+		assertThrows(NullPointerException.class, () -> list.toArray(null));
+	}
+
+	@Test
 	public void testRandomizedIteratorReturnsWeightedRandomizedEndlessIterator() {
 		WeightedRandomizedList<WeightedElement<Object>> list = new WeightedRandomizedList<>();
+
 		assertEquals(WeightedRandomizedEndlessIterator.class, list.randomizedIterator().getClass());
 	}
 
@@ -76,6 +207,13 @@ public class WeightedRandomizedListTest {
 		WeightedRandomizedList<String> actualElements = new WeightedRandomizedList<>(expectedElements);
 
 		assertEquals(expectedElements, actualElements);
+	}
+
+	@Test
+	public void testCopyConstructorCreatesEmptyListIfSpecifiedCollectionIsNull() {
+		WeightedRandomizedList<String> list = new WeightedRandomizedList<>(null);
+
+		assertTrue(list.isEmpty());
 	}
 
 	@Test

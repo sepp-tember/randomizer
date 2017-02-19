@@ -61,7 +61,9 @@ public class WeightedRandomizedList<T> implements RandomizedList<WeightedElement
 	}
 
 	public WeightedRandomizedList(Collection<WeightedElement<T>> collection) {
-		backingList.addAll(collection);
+		if (collection != null) {
+			backingList.addAll(collection);
+		}
 	}
 
 	public WeightedRandomizedList(List<Double> weights, List<T> elements) {
