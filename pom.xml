@@ -6,15 +6,38 @@
 
 	<groupId>net.sepp-tember.lib</groupId>
 	<artifactId>randomizer</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 
-	<description>Library to retrieve elements out of lists in random order.</description>
+	<name>Randomizer</name>
+	<description>Library of list implementations with the ability to iterate over their elements in random order.</description>
+	<url>https://github.com/sepp-tember/randomizer.git</url>
+
+	<licenses>
+		<license>
+			<name>Unlicense</name>
+			<url>http://unlicense.org/</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Martin Wachtler</name>
+			<email>martin.wachtler@gmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/sepp-tember/randomizer.git</connection>
+		<developerConnection>scm:git:git@github.com:sepp-tember/randomizer.git</developerConnection>
+		<url>https://github.com/sepp-tember/randomizer.git</url>
+	</scm>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -27,15 +50,28 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.4</version>
 				<executions>
 					<execution>
-						<id>compile-javadoc</id>
+						<id>atach-javadoc</id>
 						<goals>
-							<goal>javadoc</goal>
+							<goal>jar</goal>
 						</goals>
-						<phase>compile</phase>
+						<phase>package</phase>
 					</execution>
 				</executions>
 				<configuration>
@@ -43,7 +79,28 @@
 					<stylesheetfile>stylesheet.css</stylesheetfile>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ftp</artifactId>
+				<version>2.10</version>
+			</extension>
+		</extensions>
 	</build>
 
 	<dependencies>
@@ -59,5 +116,16 @@
 		</dependency>
 	</dependencies>
 
-
+	<distributionManagement>
+		<repository>
+			<id>sepp-tember-releases</id>
+			<name>sepp-tember.net Releases Repository</name>
+			<url>ftp://kontentftp.sepp-tember.net/maven/htdocs/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>sepp-tember-snapshots</id>
+			<name>sepp-tember.net Snapshots Repository</name>
+			<url>ftp://kontentftp.sepp-tember.net/maven/htdocs/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
