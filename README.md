@@ -7,62 +7,38 @@ many major changes of the architecture in the future.
 `randomizer` is a Java library meant to provide randomized lists, by accessing these lists through iterators that retrieve the elements 
 in a randomized order.
 
+Further Information can be found at [http://dev.sepp-tember.net/randomizer/](http://dev.sepp-tember.net/randomizer/)
 
-Build and Install
------------------
+Retrieval
+---------
 
-The library can be built via Maven:
+This libraries release artifacts can be retrieved from a maven repository at
+[http://maven.sepp-tember.net/releases/](http://maven.sepp-tember.net/releases/).
 
-```
-mvn compile
-```
-
-To use the library in another Maven based project, it is for now necessary to install the library in the local Maven repository via
-```
-mvn install
-```
-and then include it as dependency in the project.
+An example maven configuration would be:
 ```xml
-<project>
-    ...
-    <dependencies>
-        <dependency>
-            <groupId>net.sepp-tember.lib</groupId>
-            <artifactId>randomizer</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    ...
-</project>
+	<project xmlns="http://maven.apache.org/POM/4.0.0"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+			https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		...
+		<dependencies>
+			<dependency>
+				<groupId>net.sepp-tember.lib</groupId>
+				<artifactId>randomizer</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+		</dependencies>
+		...
+		<repositories>
+			<repository>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+				<id>sepp-tember-snapshots</id>
+				<url>http://maven.sepp-tember.net/releases/</url>
+			</repository>
+		</repositories>
+		...
+	</project>
 ```
-It is planned to deploy the library to some Maven repository, ideally Central repository. But for now it is needed to install the library
- in the local repository to use it as dependency.
-
-
-Usage
------
-
-A small example on how to use `WeightedRandomizedList` to get some elements in a random order:
-```java
-    // create randomized list
-    WeightedRandomizedList<Number> randomizedList = new WeightedRandomizedList<>();
-
-    // fill it with some elements
-    randomizedList.add(new WeightedElement<>(0.3, 23));
-    randomizedList.add(new WeightedElement<>(0.6, 42));
-    randomizedList.add(new WeightedElement<>(0.8, 12));
-    
-    // create randomized iterator
-    Iterator<WeightedElement<Number>> iterator = randomizedList.randomizedIterator();
-    
-    for (int i = 0; i < 10000; i++) {
-        // get elements in random order
-        Number next = iterator.next().getElement();
-        // then do something with the element
-    }
-```
-The `WeightedRandomizedList` provides a randomized iterator that delivers an endless sequence of elements (i.e. `iterator.hasNext()` 
-always returns `true`). The distribution of the elements is weighted; the higher the weight, the more often the elements gets drawn. The 
-total sum of the weights in the list does not have to be 1, each weight gets normalized by the total sum of weights. So in the above 
-example the number 23 gets drawn approximately 1765 times, 42 3529 times, and 12 4706 times. Of course the exact number can not be 
-foreseen, because the drawing of the elements is based on a random number generator.
