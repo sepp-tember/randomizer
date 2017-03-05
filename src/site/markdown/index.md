@@ -6,7 +6,7 @@ in a randomized order.
 
 ### Usage
 
-A small example on how to use `WeightedRandomizedList` to get some elements in a random order:
+A short example on how to use `WeightedRandomizedList` to get some elements in a random order:
 
 	class Example {
 		public int main(String[] args) {
